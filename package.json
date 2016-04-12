@@ -1,0 +1,35 @@
+{
+  "name": "nordpool",
+  "version": "0.1.0",
+  "description": "Nordpool Elspot API client",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
+  },
+  "keywords": [
+    "nordpool",
+    "api",
+    "energy",
+    "prices",
+    "volume",
+    "capacity",
+    "flow"
+  ],
+  "author": "Samuel Rinnetmäki",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/samuelmr/nordpool.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^3.6.0",
+    "moment": "^2.12.0",
+    "request": "^2.70.0",
+    "request-promise": "^0.4.1"
+  },
+  "devDependencies": {
+    "nock": "^1.5.0",
+    "chai": "^2.2.0",
+    "mocha": "^2.2.4"
+  }
+}
