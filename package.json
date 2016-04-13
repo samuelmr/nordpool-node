@@ -4,7 +4,8 @@
   "description": "Nordpool Elspot API client",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "./node_modules/mocha/bin/mocha",
+    "prepublish": "require-self"
   },
   "keywords": [
     "nordpool",
@@ -18,7 +19,7 @@
   "author": "Samuel Rinnetmäki",
   "repository": {
     "type": "git",
-    "url": "http://github.com/samuelmr/nordpool.git"
+    "url": "http://github.com/samuelmr/nordpool-node.git"
   },
   "license": "MIT",
   "dependencies": {
@@ -30,6 +31,7 @@
   "devDependencies": {
     "nock": "^1.5.0",
     "chai": "^2.2.0",
-    "mocha": "^2.2.4"
+    "mocha": "^2.2.4",
+    "require-self": "^0.1.0"
   }
 }
