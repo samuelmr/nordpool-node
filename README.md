@@ -1,6 +1,6 @@
 # Nordpool Elspot API npm client
 
-[![Build Status](https://travis-ci.org/samuelmr/nordpool.svg?branch=master)](https://travis-ci.org/samuelmr/nordpool)
+[![Build Status](https://travis-ci.org/samuelmr/nordpool-node.svg?branch=master)](https://travis-ci.org/samuelmr/nordpool-node)
 
 Unofficial [Nordpool](http://www.nordpoolspot.com/) Elspot API npm client
 
