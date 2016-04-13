@@ -68,4 +68,13 @@ prices.weekly(opts, function (error, results) {
 
 ```
 
-See possible `area`s (regions) from [nordpoolspot.com](http://www.nordpoolspot.com/Market-data1/Elspot/Area-Prices/)
+See possible values for `area` (regions) from [nordpoolspot.com](http://www.nordpoolspot.com/Market-data1/Elspot/Area-Prices/)
+
+### Data availability
+Data is available in the Nord Pool API at least since 2014-01-01
+
+### Known issues
+Fetching data by only specifying `startDate` doesn't seem to work (always). Try setting `endDate` instead.
+
+### TODO
+Add support for other API functions (volume, capacity, flow).
