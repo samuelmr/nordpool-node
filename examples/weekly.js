@@ -7,7 +7,7 @@ opts.area = 'Bergen', // DK2, EE1, FI, 'Kr.sand', LT, LV, 'Oslo', SE1, SE4, ...
 opts.from = '2015-01-01'
 
 prices.weekly(opts, function (error, results) {
-  if (error) console.err(error)
+  if (error) console.error(error)
   for (var i=0; i<results.length; i++) {
     var date = results[i].date // moment object (see http://momentjs.com/)
     var price = results[i].value // float, EUR/MWh

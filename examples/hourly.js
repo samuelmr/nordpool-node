@@ -6,7 +6,7 @@ var opts = {
 }
 
 prices.hourly(opts, function (error, results) {
-  if (error) console.err(error)
+  if (error) console.error(error)
   for (var i=0; i<results.length; i++) {
     var date = results[i].date // moment object (see http://momentjs.com/)
     var price = results[i].value // float, EUR/MWh
