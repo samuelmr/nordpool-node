@@ -30,7 +30,6 @@ describe('Prices ', function () {
       '2016-04-01T15:00:00',
       {area: 'LV'},
       function (error, response) {
-      should.exist.response
       response.should.have.property('area', 'LV')
       response.should.have.property('value', 30.02)
       done()
@@ -42,7 +41,6 @@ describe('Prices ', function () {
       area: 'LV',
       endDate: '2016-04-01'
     }, function (error, response) {
-      should.exist.response
       response.should.have.property('length', 24)
       response[0].should.have.property('value', 20.69)
       done()
@@ -55,7 +53,6 @@ describe('Prices ', function () {
       currency: 'NOK',
       endDate: '2016-04-01'
     }, function (error, response) {
-      should.exist.response
       response.should.have.property('length', 31)
       response[0].should.have.property('value', 207.42)
       done()
@@ -68,7 +65,6 @@ describe('Prices ', function () {
       currency: 'DKK',
       startDate: '2015-07-01'
     }, function (error, response) {
-      should.exist.response
       response.should.have.property('length', 24)
       response[0].should.have.property('value', 162.77)
       done()
@@ -81,7 +77,6 @@ describe('Prices ', function () {
       currency: 'SEK',
       startDate: '2015-12-01'
     }, function (error, response) {
-      should.exist.response
       response.should.have.property('length', 4)
       response[0].should.have.property('value', 207.44)
       done()
@@ -93,7 +88,6 @@ describe('Prices ', function () {
       startDate: '2011-01-01',
       endDate: '2016-01-01'
     }, function (error, response) {
-      should.exist.response
       response.should.have.property('length', 77)
       response[0].should.have.property('value', 20.98)
       done()
