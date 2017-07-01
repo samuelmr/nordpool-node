@@ -24,15 +24,14 @@
   },
   "license": "MIT",
   "dependencies": {
-    "lodash": "^3.6.0",
-    "moment": "^2.12.0",
-    "request": "^2.70.0",
-    "request-promise": "^0.4.1"
+    "moment": "^2.18.1",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1"
   },
   "devDependencies": {
-    "nock": "^1.5.0",
-    "chai": "^2.2.0",
-    "mocha": "^2.2.4",
-    "require-self": "^0.1.0"
+    "nock": "^9.0.13",
+    "chai": "^4.0.2",
+    "mocha": "^3.4.2",
+    "require-self": "^0.2.1"
   }
 }
