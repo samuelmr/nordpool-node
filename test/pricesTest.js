@@ -14,6 +14,8 @@ describe('Prices ', function () {
   nock(config.baseUrl)
   .get('/marketdata/page/10?currency=,EUR,EUR,EUR&endDate=01-04-2016')
   .reply(200, hourlyPrices)
+  .get('/marketdata/page/10?currency=,EUR,EUR,EUR&endDate=01-04-2016')
+  .reply(200, hourlyPrices) // needs to be specified twice!
   .get('/marketdata/page/11?currency=,NOK,NOK,NOK&endDate=01-04-2016')
   .reply(200, dailyPrices)
   .get('/marketdata/page/12?currency=,DKK,DKK,DKK&startDate=01-07-2015')
@@ -22,12 +24,22 @@ describe('Prices ', function () {
   .reply(200, montlyPrices)
   .get('/marketdata/page/14?currency=,EUR,EUR,EUR&startDate=01-01-2011&endDate=01-01-2016')
   .reply(200, yearlyPrices)
-    // .get('/appliances/applianceId')
-    // .reply(200, singleAppliance)
+
+  it('should get LV price in EUR at April 1st 2016 15:00', function (done) {
+    prices.at(
+      '2016-04-01T15:00:00',
+      {area: 'LV'},
+      function (error, response) {
+      should.exist.response
+      response.should.have.property('area', 'LV')
+      response.should.have.property('value', 30.02)
+      done()
+    })
+  })
 
   it('should get hourly FI prices in EUR', function (done) {
     prices.hourly({
-      area: 'FI',
+      area: 'LV',
       endDate: '2016-04-01'
     }, function (error, response) {
       should.exist.response
