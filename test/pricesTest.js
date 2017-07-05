@@ -42,7 +42,7 @@ describe('Prices ', function () {
       area: 'FI',
       endDate: '2016-04-01T23:59:59+0300'
     }, function (error, response) {
-      response.should.have.property('length', 23)
+      response.should.have.property('length', 24)
       response[0].should.have.property('value', 20.69)
       response[0].date.format('YYYY-MM-DD').should.equal('2016-04-01')
       done()
