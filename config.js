@@ -9,5 +9,6 @@ module.exports = {
   priceUrlYearly: baseUrl + '/marketdata/page/14',
   // volumeUrl: baseUrl + '/marketdata/page/',
   // capacityUrl: baseUrl + '/marketdata/page/',
-  // flowUrl: baseUrl + '/marketdata/page/'
+  // flowUrl: baseUrl + '/marketdata/page/',
+  timezone: 'Europe/Oslo'
 }
