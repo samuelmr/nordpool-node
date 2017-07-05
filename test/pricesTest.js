@@ -81,6 +81,7 @@ describe('Prices ', function () {
       currency: 'SEK',
       startDate: '2015-12-01'
     }, function (error, response) {
+      console.log(JSON.stringify(response))
       response.should.have.property('length', 4)
       response[0].should.have.property('value', 207.44)
       done()
