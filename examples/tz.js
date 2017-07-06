@@ -12,6 +12,6 @@ prices.hourly(opts, function (error, results) {
     var date = results[i].date
     var price = results[i].value
     var time = date.tz('Europe/Helsinki').format("D.M. H:mm")
-    console.log(price + ' €/MWh at ' + time)
+    console.log(price + ' ' + opts.currency + '/MWh at ' + time)
   }
 })

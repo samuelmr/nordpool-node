@@ -20,17 +20,19 @@ const request = require('request')
 
 let myTimeZone = moment.tz.guess()
 
-let opts = {
-  area: AREA,
-  currency: CURRENCY
-}
-
 let date = moment()
 date.set('hours', date.get('hours') + 1) // next hour
 date.set('minutes', 0)
 date.set('seconds', 0)
 date.set('milliseconds', 0)
-prices.at(date, opts, function (error, results) {
+
+let opts = {
+  area: AREA,
+  currency: CURRENCY,
+  date: date
+}
+
+prices.at(opts, function (error, results) {
   if (error) {
     console.error(error)
     return

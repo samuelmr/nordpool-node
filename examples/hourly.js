@@ -1,11 +1,7 @@
 var nordpool = require('nordpool')
 var prices = new nordpool.Prices()
 
-var opts = {
-  currency: 'EUR', // can also be 'DKK', 'NOK', 'SEK'
-}
-
-prices.hourly(opts, function (error, results) {
+prices.hourly({}, function (error, results) {
   if (error) console.error(error)
   for (var i=0; i<results.length; i++) {
     var date = results[i].date // moment object (see http://momentjs.com/)
