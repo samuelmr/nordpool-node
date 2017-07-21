@@ -58,7 +58,7 @@ npm install nordpool
 var nordpool = require('nordpool')
 var prices = new nordpool.Prices()
 
-prices.hourly(opts, function (error, results) {
+prices.hourly({}, function (error, results) {
   if (error) console.error(error)
   for (var i=0; i<results.length; i++) {
     var date = results[i].date // moment object (see http://momentjs.com/)
