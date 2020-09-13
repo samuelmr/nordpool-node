@@ -35,8 +35,8 @@ prices.hourly(opts, function (error, results) {
 ### Options
 - `area`: the energy market area. See http://www.nordpoolspot.com/maps/
   Currently active areas are BERGEN, DK1, DK2, EE, ELE, FRE, KR.SAND, KT,
-  LT, LV, MOLDE, OSLO, SE, SE1, SE2, SE3, SE4, SYS, TR.HEIM and TROMSØ
-- `currency`: choose either `DKK`, `EUR`, `NOK` or `SEK`
+  LT, LV, MOLDE, OSLO, SE, SE1, SE2, SE3, SE4, SYS, TR.HEIM, TROMSØ, EE, LV, LT, AT, BE, DE-LU, FR and NL.
+- `currency`: choose either `DKK`, `EUR`, `NOK` or `SEK`. *Note that not all areas will return all currencies*.
 - `date`: can be a `Date` or `moment.js` object or a string in ISO 8601 format
   or `W/YYYY` (week number and year) or `YYYY-MM` (year and month). If no
   timezone is set, `CET` is assumed.
