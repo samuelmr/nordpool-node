@@ -4,6 +4,13 @@
 
 Unofficial [Nordpool](http://www.nordpoolspot.com/) Elspot API npm client
 
+## Restrictions regarding data use
+
+Before you access the Nordpool data using this module, please read and understand the
+[Terms and conditions for use of website](https://www.nordpoolgroup.com/About-us/Terms-and-conditions-for-use/)
+There may be clauses prohibiting automatic extraction of data that reduces the performance of the website,
+limits for republishing information etc.
+
 ## Features
 
 - [Prices](http://www.nordpoolspot.com/Market-data1/Elspot/Area-Prices/)
