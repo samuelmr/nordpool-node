@@ -24,14 +24,14 @@
   },
   "license": "MIT",
   "dependencies": {
-    "moment-timezone": "^0.5.13",
-    "request": "^2.81.0",
-    "request-promise": "^4.2.1"
+    "moment-timezone": "^0.5.31",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
   },
   "devDependencies": {
-    "nock": "^9.0.13",
-    "chai": "^4.0.2",
-    "mocha": "^3.4.2",
-    "require-self": "^0.2.1"
+    "chai": "^4.2.0",
+    "mocha": "^3.5.3",
+    "nock": "^9.6.1",
+    "require-self": "^0.2.3"
   }
 }
