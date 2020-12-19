@@ -4,7 +4,7 @@
   "description": "Nord Pool ELSPOT API client",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha",
+    "test": "node ./node_modules/mocha/bin/mocha",
     "prepublish": "require-self"
   },
   "tonicExampleFilename": "./examples/hourly.js",
