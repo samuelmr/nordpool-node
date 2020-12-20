@@ -1,6 +1,6 @@
 {
   "name": "nordpool",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "Nord Pool ELSPOT API client",
   "main": "index.js",
   "scripts": {
@@ -24,7 +24,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "moment-timezone": "^0.5.31",
+    "moment-timezone": "^0.5.32",
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
