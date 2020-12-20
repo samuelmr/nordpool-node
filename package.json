@@ -4,7 +4,7 @@
   "description": "Nord Pool ELSPOT API client",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha",
+    "test": "node ./node_modules/mocha/bin/mocha",
     "prepublish": "require-self"
   },
   "tonicExampleFilename": "./examples/hourly.js",
@@ -25,8 +25,7 @@
   "license": "MIT",
   "dependencies": {
     "moment-timezone": "^0.5.31",
-    "request": "^2.88.2",
-    "request-promise": "^4.2.6"
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
