@@ -32,5 +32,12 @@
     "mocha": "^3.5.3",
     "nock": "^9.6.1",
     "require-self": "^0.2.3"
+  },
+  "files": [
+    "lib/",
+    "config.js"
+  ],
+  "engines": {
+    "node": ">= 7.0.0"
   }
 }
