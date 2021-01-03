@@ -1,5 +1,6 @@
-var nordpool = require('nordpool')
-var prices = new nordpool.Prices()
+const nordpool = require('nordpool')
+const prices = new nordpool.Prices()
+const moment = require('moment-timezone')
 
 var opts = {
   currency: 'NOK',
@@ -9,11 +10,11 @@ var opts = {
 
 prices.weekly(opts, function (error, results) {
   if (error) console.error(error)
-  for (var i=0; i<results.length; i++) {
+  for (var i = 0; i < results.length; i++) {
     var date = results[i].date
     var price = results[i].value
-    var weeklyPriceMessage = "The price on week " + date.format("W/GGGG") +
-      " was " + price + " NOK/MWh"
+    var weeklyPriceMessage = 'The price on week ' + moment(date).format('W/GGGG') +
+      ' was ' + price + ' NOK/MWh'
     console.log(weeklyPriceMessage)
   }
 })

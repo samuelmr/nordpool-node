@@ -13,22 +13,21 @@ limits for republishing information etc.
 
 ## Features
 
-- [Prices](http://www.nordpoolspot.com/Market-data1/Elspot/Area-Prices/)
+- [Prices][AreaPrices]
 - [Volumes](http://www.nordpoolspot.com/Market-data1/Elspot/Volumes/) (not implemented yet)
 - [Capacities](http://www.nordpoolspot.com/Market-data1/Elspot/Capacities1/) (not implemented yet)
 - [Flow](http://www.nordpoolspot.com/Market-data1/Elspot/Flow1/) (not implemented yet)
 
+[AreaPrices]: https://www.nordpoolgroup.com/Market-data1/
 
 ## Usage
 ```js
-
 const nordpool = require('nordpool')
 const prices = new nordpool.Prices()
 let opts = {}
 prices.hourly(opts, function (error, results) {
   console.log(results)
 })
-
 ```
 
 ### Methods
@@ -40,73 +39,95 @@ prices.hourly(opts, function (error, results) {
 - `yearly`: get yearly prices
 
 ### Options
-- `area`: the energy market area. See http://www.nordpoolspot.com/maps/
-  Currently active areas are BERGEN, DK1, DK2, EE, ELE, FRE, KR.SAND, KT,
-  LT, LV, MOLDE, OSLO, SE, SE1, SE2, SE3, SE4, SYS, TR.HEIM, TROMSØ, EE, LV, LT, AT, BE, DE-LU, FR and NL.
-- `currency`: choose either `DKK`, `EUR`, `NOK` or `SEK`. *Note that not all areas will return all currencies*.
-- `date`: can be a `Date` or `moment.js` object or a string in ISO 8601 format
-  or `W/YYYY` (week number and year) or `YYYY-MM` (year and month). If no
-  timezone is set, `CET` is assumed.
-- `from`: Don't return values before this time. Accepts same formats as `date`.
-- `to`: Don't return values after this time. Accepts same formats as `date`.
+*Options must be included as a single object containing the some of the properties listed here*
+- `area`: the energy market area. See [nordpool map](https://www.nordpoolgroup.com/Market-data1/#/nordic/map)
+  - Accepts: a string or an array of strings. Strings are case sensitive. Currently available areas are `Bergen, DK1, DK2, FI, Kr.sand, Molde, OSLO, SE1, SE2, SE3, SE4, SYS, Tr.heim, Tromsø', EE, LV, LT, AT, BE, DE-LU, FR` and `NL`.
+  - Optional: if not specified all areas are used.
+- `currency`: choose currency of the returned  values. *Note that not all areas will return all currencies*. `EUR` seams to work on all areas though.
+  - Accepts: a string of either `DKK`, `EUR`, `NOK` or `SEK`.  Strings are case sensitive.
+  - Optional: if currency is not specified `EUR` or wrong `EUR` is returned.
+- `date`: must be a date parsable by `new Date(x)`.
+  - Accepts: `Date` object or a string parsable by `new Date(x)` like a string in [ISO 8601 format](https://www.w3schools.com/js/js_date_formats.asp).
+  - Optional: if date is not specified todays date of your local system is used
+- `from`: don't return values before/after this time. 
+  - Accepts: Accepts same formats as `date`.
+  - Optional: falls back to one date based on input from `date`.
+- `to`: don't return values/after this time. There are some weird limits to this time span as stated in the known issues. You will be prompted with a warning if you pass the limit.
+  - Accepts: Accepts same formats as `date`.
+  - Optional: falls back to the max limits  one date based on input from `date`.
 
-### Install
+## Returned values
+
+The result is returned as an array of objects. Eg. if requesting hourly with options = `{area:'Oslo', currency:'NOK', from:'2019-01-01T04:00:00.000Z', to:'2019-01-01T05:00:01.000Z'}`
+```js
+[{
+    area: 'Oslo' // Area in Eg. Oslo
+    date: '2019-01-01T04:00:00.000Z' // UTC timestamp of price. Eg. price from 04:00 to 05:00 UTC time
+    value: 471.26 // Price in 'currency'/MWh Eg. NOK/MWh
+},
+{ area: 'OSLO', date: '2019-01-01T05:00:00.000Z', value: 479.12 }
+]
+```
+
+## Install
 
 ```
 npm install nordpool
-
 ```
 
 ## Examples
 
 ### Example 1: Latest hourly prices from all areas
-```js
 
-var nordpool = require('nordpool')
-var prices = new nordpool.Prices()
+```js
+const nordpool = require('nordpool')
+const prices = new nordpool.Prices()
 
 prices.hourly({}, function (error, results) {
   if (error) console.error(error)
-  for (var i=0; i<results.length; i++) {
-    var date = results[i].date // moment object (see http://momentjs.com/)
+  for (var i = 0; i < results.length; i++) {
+    var date = results[i].date // ISO Date-Time (see https://www.w3schools.com/js/js_date_formats.asp)
     var price = results[i].value // float, EUR/MWh
     var hourlyPriceMessage = results[i].area +
-      " at " + date.format("DD.MM. H:mm") + ": " + price/10 + " eurocent/kWh"
+      ' at ' + date + ': ' + price / 10 + ' cent/kWh'
     console.log(hourlyPriceMessage)
   }
 })
-
 ```
 
-### Example 2: Latest hourly prices in Finland
-```js
+### Example 2: Latest hourly prices in Finland converted from UTC to Finland local time
 
-var nordpool = require('nordpool')
-var prices = new nordpool.Prices()
+```js
+const nordpool = require('nordpool')
+const prices = new nordpool.Prices()
+const dayjs = require('dayjs')
+const dayjsPluginUtc = require('dayjs/plugin/utc')
+const dayjsPluginTimezone = require('dayjs/plugin/timezone')
+dayjs.extend(dayjsPluginUtc) // Used by timezone
+dayjs.extend(dayjsPluginTimezone) // Used to convert from one timezone to another
 
 var opts = {
   area: 'FI', // See http://www.nordpoolspot.com/maps/
-  currency: 'EUR', // can also be 'DKK', 'NOK', 'SEK'
+  currency: 'EUR' // can also be 'DKK', 'NOK', 'SEK'
 }
 
 prices.hourly(opts, function (error, results) {
   if (error) console.error(error)
-  for (var i=0; i<results.length; i++) {
+  for (var i = 0; i < results.length; i++) {
     var date = results[i].date
     var price = results[i].value
-    var time = date.tz('Europe/Helsinki').format("D.M. H:mm")
+    var time = dayjs.tz(date, 'UTC').tz('Europe/Helsinki').format('D.M. H:mm')
     console.log(price + ' ' + opts.currency + '/MWh at ' + time)
   }
 })
-
 ```
 
 ### Example 3: Weekly prices in Bergen in 2015
 
 ```js
-
-var nordpool = require('nordpool')
-var prices = new nordpool.Prices()
+const nordpool = require('nordpool')
+const prices = new nordpool.Prices()
+const moment = require('moment-timezone')
 
 var opts = {
   currency: 'NOK',
@@ -116,30 +137,27 @@ var opts = {
 
 prices.weekly(opts, function (error, results) {
   if (error) console.error(error)
-  for (var i=0; i<results.length; i++) {
+  for (var i = 0; i < results.length; i++) {
     var date = results[i].date
     var price = results[i].value
-    var weeklyPriceMessage = "The price on week " + date.format("W/GGGG") +
-      " was " + price + " NOK/MWh"
+    var weeklyPriceMessage = 'The price on week ' + moment(date).format('W/GGGG') +
+      ' was ' + price + ' NOK/MWh'
     console.log(weeklyPriceMessage)
   }
 })
-
 ```
 
 See examples folder for more examples.
 
-Check possible values for `area` (regions) from [nordpoolspot.com](http://www.nordpoolspot.com/Market-data1/Elspot/Area-Prices/)
+Check possible values for `area` (regions) from [nordpoolspot.com][AreaPrices]
 
 ## Data availability
 Historical data seems to be available for two previous years.
 
 ## Known issues
 - Versions prior to 2.0 were full of flaws. Don't use them.
-- The Nordpool API returns data in Norwegian time zones. The `hourly` API
-  returns data from midnight to midnight in the Europe/Oslo timezone.
-- The API limits are a bit strange. The maximum number of weeks is 24 and
-  the maximum number of months is 53.
+- The Nordpool API returns data in Norwegian time zones. The `hourly` API returns data from midnight to midnight in the Europe/Oslo timezone.
+- The API limits are a bit strange. The maximum number of weeks is 24 and the maximum number of months is 53.
 
 ## TODO
 Add support for other API functions (volume, capacity, flow).
