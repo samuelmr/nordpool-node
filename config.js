@@ -1,3 +1,4 @@
+'use strict'
 var baseUrl = 'http://www.nordpoolspot.com/api'
 
 module.exports = {
@@ -10,11 +11,5 @@ module.exports = {
   // volumeUrl: baseUrl + '/marketdata/page/',
   // capacityUrl: baseUrl + '/marketdata/page/',
   // flowUrl: baseUrl + '/marketdata/page/',
-  timezone: 'Europe/Oslo'// ,
-  // dateFormats: [
-  //   'YYYY-MM-DD\Thh:mm:ss',
-  //   'YYYY-MM-DD',
-  //   'YYYY-MM',
-  //   'W/GGGG'
-  // ]
+  timezone: 'Europe/Oslo'
 }

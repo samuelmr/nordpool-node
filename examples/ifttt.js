@@ -20,22 +20,23 @@ const fetch = require('node-fetch')
 
 const myTimeZone = moment.tz.guess()
 
-const date = moment()
-date.set('hours', date.get('hours') + 1) // next hour
-date.set('minutes', 0)
-date.set('seconds', 0)
-date.set('milliseconds', 0)
+const inputDate = moment()
+inputDate.set('hours', inputDate.get('hours') + 1) // next hour
+inputDate.set('minutes', 0)
+inputDate.set('seconds', 0)
+inputDate.set('milliseconds', 0)
 
-const opts = {
-  area: AREA,
-  currency: CURRENCY,
-  date: date
-}
-
-prices.at(opts, function (error, results) {
-  if (error) {
-    console.error(error)
-    return
+async function run (inputDate) {
+  let opts = {
+    area: AREA,
+    currency: CURRENCY,
+    date: inputDate
+  }
+  let results
+  try {
+    results = await prices.at(opts)
+  } catch (error) {
+    throw new Error('Error getting prices from nordpool')
   }
   const price = results.value / 10 // price per kWh instead of MWh
   const date = moment(results.date).tz(myTimeZone).format('H:mm')
@@ -52,20 +53,23 @@ prices.at(opts, function (error, results) {
     console.log('Price within normal range. No alert.')
     return
   }
-  var opts = {
+  opts = {
     method: 'post',
     body: JSON.stringify(values),
     headers: { 'Content-Type': 'application/json' }
   }
   console.log('POSTing ' + values.value1 + ' threshold trigger...')
-  fetch(IFTTT_URL, opts)
-    .then(res => res.text())
-    .then(res => {
-      if (res.search('errors') > 0) {
-        throw new Error(res)
-      }
-      return res
-    })
-    .catch(err => console.error(err))
-    .then(res => console.log('Success: ' + res))
-})
+  let response
+  try {
+    response = await fetch(IFTTT_URL, opts)
+  } catch (error) {
+    throw new Error('Error posing to IFTTT')
+  }
+  response = await response.text()
+  console.log('response', response)
+  if (response.search('errors') > 0) {
+    throw new Error(response)
+  }
+  return response
+}
+run(inputDate)

@@ -2,14 +2,13 @@ var nordpool = require('nordpool')
 var prices = new nordpool.Prices()
 const moment = require('moment-timezone')
 
-var opts = {
-  area: ['EE', 'LT', 'LV'],
-  from: '2014-01-01',
-  to: '2017-12-31'
-}
-
-prices.yearly(opts, function (error, results) {
-  if (error) console.error(error)
+async function run () {
+  var opts = {
+    area: ['EE', 'LT', 'LV'],
+    from: '2014-01-01',
+    to: '2017-12-31'
+  }
+  const results = await prices.yearly(opts)
   console.log('Year\tPrice\tArea')
   for (var i = 0; i < results.length; i++) {
     var date = moment(results[i].date).format('Y')
@@ -19,4 +18,5 @@ prices.yearly(opts, function (error, results) {
     // LV may appear twice for some years...
     console.log(weeklyPriceMessage)
   }
-})
+}
+run()
