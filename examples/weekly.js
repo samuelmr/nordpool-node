@@ -1,20 +1,25 @@
 const nordpool = require('nordpool')
-const prices = new nordpool.Prices()
 const moment = require('moment-timezone')
 
-async function run () {
-  var opts = {
-    currency: 'NOK',
-    area: 'Bergen',
-    from: '2016-01-01'
-  }
-  const results = await prices.weekly(opts)
-  for (var i = 0; i < results.length; i++) {
-    var date = results[i].date
-    var price = results[i].value
-    var weeklyPriceMessage = 'The price on week ' + moment(date).format('W/GGGG') +
-      ' was ' + price + ' NOK/MWh'
+const opts = {
+  currency: 'NOK',
+  area: 'Bergen',
+  from: '2019-06-01'
+}
+
+getWeekly = async () => {
+  const prices = await new nordpool.Prices().weekly(opts)
+  for (const week of prices.reverse()) {
+    const weeklyPriceMessage = 'The MWh price on week ' + 
+      moment(week.date).format('W/GGGG') +
+      ' was ' + priceFormat.format(week.value)
     console.log(weeklyPriceMessage)
   }
 }
-run()
+getWeekly()
+
+const priceFormat = new Intl.NumberFormat('no-NO', {
+  style: 'currency',
+  currency: 'NOK',
+  minimumFractionDigits: 2
+});
