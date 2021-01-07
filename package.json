@@ -24,7 +24,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "dayjs": "^1.9.8",
+    "dayjs": "^1.10.2",
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
