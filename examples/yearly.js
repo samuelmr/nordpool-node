@@ -4,9 +4,9 @@ const moment = require('moment-timezone')
 
 async function run () {
   var opts = {
-    area: ['EE', 'LT', 'LV'],
-    from: '2014-01-01',
-    to: '2017-12-31'
+    area: ['SE1', 'SE2', 'SE3', 'SE4'],
+    from: '2019-01-01',
+    to: '2020-12-31'
   }
   const results = await prices.yearly(opts)
   console.log('Year\tPrice\tArea')
