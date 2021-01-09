@@ -189,7 +189,7 @@ const priceFormat = new Intl.NumberFormat('no-NO', {
 });
 ```
 
-See [examples] folder for more examples.
+See [examples](examples) folder for more examples.
 
 Check possible values for `area` (regions) from [nordpoolspot.com][AreaPrices]
 
