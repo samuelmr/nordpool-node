@@ -23,9 +23,9 @@ limits for republishing information etc.
 
 ## Usage
 ```js
-const nordpool = require('nordpool')
+import { nordpool } from 'nordpool'
 const prices = new nordpool.Prices()
-async function run () {
+const run = async () => {
   const results = await prices.hourly()
   console.log(results)
 }
@@ -51,6 +51,7 @@ run()
 - `date`: must be a date parsable by `new Date(x)`.
   - Accepts: `Date` object or a string parsable by `new Date(x)` like a string in [ISO 8601 format](https://www.ecma-international.org/ecma-262/11.0/#sec-date-time-string-format).
   - Optional: if date is not specified todays date of your local system is used
+  - Note: using plain dates (e.g., `2021-09-19`) are converted to midnight in your local timezone, which may be on another day than the midnight on default (Norwegian) timezone. If you don't get the results ypu expect, try to specify an exact time and timezone (e.g,`2021-09-19T00:00:00+01:00`)
 - `from`: don't return values before/after this time. 
   - Accepts: Accepts same formats as `date`.
   - Optional: falls back to one date based on input from `date`.
@@ -60,12 +61,12 @@ run()
 
 ## Returned values
 
-The result is returned as a Promise resolving into an array of objects. Eg. if requesting hourly with options = `{ area: 'Oslo', currency: 'NOK', from: '2020-01-01T04:00:00.000Z', to: '2020-01-01T05:00:01.000Z' }`
+The result is returned as a Promise resolving into an array of objects. If requesting hourly with options = `{ area: 'Oslo', currency: 'NOK', from: '2020-01-01T04:00:00.000Z', to: '2020-01-01T05:00:01.000Z' }` the result should be:
 ```js
 [{
-    area: 'Oslo' // Area in Eg. Oslo
+    area: 'Oslo' // Area
     date: '2020-01-01T04:00:00.000Z' // UTC timestamp of price. Eg. price from 04:00 to 05:00 UTC time
-    value: 298.57 // Price in 'currency'/MWh Eg. NOK/MWh
+    value: 298.57 // Price in `currency`/MWh Eg. NOK/MWh
 },
 { area: 'Oslo', date: '2020-01-01T05:00:00.000Z', value: 297.58 }
 ]
@@ -82,7 +83,7 @@ npm install nordpool
 ### Example 1: Latest hourly prices from all areas
 
 ```js
-const nordpool = require('nordpool')
+import { nordpool } from 'nordpool'
 const prices = new nordpool.Prices()
 
 prices.hourly().then(results => {
@@ -94,24 +95,24 @@ prices.hourly().then(results => {
 
 ```
 
-### Example 2: Hourly prices in Finland
-
-Parsing dates and setting timezone with `day.js`
+### Example 2: Hourly prices in Stockholm
 
 ```js
-const nordpool = require('nordpool')
+import {nordpool} from 'nordpool'
 const prices = new nordpool.Prices()
-const dayjs = require('dayjs')
-const dayjsPluginUtc = require('dayjs/plugin/utc')
-const dayjsPluginTimezone = require('dayjs/plugin/timezone')
+import dayjs from 'dayjs'
+import dayjsPluginUtc from 'dayjs/plugin/utc.js'
+import dayjsPluginTimezone from 'dayjs/plugin/timezone.js'
 dayjs.extend(dayjsPluginUtc) // Used by timezone
 dayjs.extend(dayjsPluginTimezone) // Used to convert from one timezone to another
 
-async function run () {
-  const opts = {
-    area: 'FI', // See http://www.nordpoolspot.com/maps/
-    currency: 'EUR' // can also be 'DKK', 'NOK', 'SEK'
-  }
+const formatter = new Intl.NumberFormat('se-SE', {style: 'currency', currency: 'SEK'})
+const opts = {
+  area: 'SE3', // See http://www.nordpoolspot.com/maps/
+  currency: 'SEK' // can also be 'DKK', 'EUR', 'NOK'
+}
+
+const run = async () => {
   let results
   try {
     results = await prices.hourly(opts)
@@ -122,8 +123,8 @@ async function run () {
   for (let i = 0; i < results.length; i++) {
     const date = results[i].date
     const price = results[i].value
-    const time = dayjs.tz(date, 'UTC').tz('Europe/Helsinki').format('D.M. H:mm')
-    console.log(price + ' ' + opts.currency + '/MWh at ' + time)
+    const time = dayjs.tz(date, 'UTC').tz('Europe/Stockholm').format('D.M. H:mm')
+    console.log(time + '\t' + formatter.format(price) + '/MWh')
   }
 }
 run()
@@ -133,11 +134,11 @@ run()
 
 Coverting "business prices" (€/MWh) to "consumer prices" (including VAT)
 ```js
-const nordpool = require('nordpool')
+import {nordpool} from 'nordpool'
+
 const prices = new nordpool.Prices()
 
-// async/await method
-printHourlyConsumerPrices = async () => {
+const printHourlyConsumerPrices = async () => {
   const results = await prices.hourly({area:'FI'})
   for (const item of results) {
     // item.date is an ISO Date-Time
@@ -150,7 +151,7 @@ printHourlyConsumerPrices = async () => {
     // convert it to snt/kWh and add Finnish VAT of 24 %
     const price = Math.round(item.value * 1.24 * 100)/1000
 
-    var row = `${hour}\t${price} cent/kWh`
+    var row = `${hour}\t${price.toFixed(3)} snt/kWh`
     console.log(row)
   }
 }
@@ -162,8 +163,11 @@ printHourlyConsumerPrices()
 Parsing dates with `moment` and formatting prices with `Intl.NumberFormat`
 
 ```js
-const nordpool = require('nordpool')
-const moment = require('moment-timezone')
+import {nordpool} from 'nordpool'
+import dayjs from 'dayjs'
+import dayjsPluginCustomParseFormat from 'dayjs/plugin/customParseFormat.js'
+import dayjsPluginWeekOfYear from 'dayjs/plugin/weekOfYear.js'
+dayjs.extend(dayjsPluginWeekOfYear)
 
 const opts = {
   currency: 'NOK',
@@ -171,11 +175,11 @@ const opts = {
   from: '2019-06-01'
 }
 
-getWeekly = async () => {
+const getWeekly = async () => {
   const prices = await new nordpool.Prices().weekly(opts)
   for (const week of prices.reverse()) {
     const weeklyPriceMessage = 'The MWh price on week ' + 
-      moment(week.date).format('W/GGGG') +
+      dayjs(week.date).week() + '/' + dayjs(week.date).format('YYYY') +
       ' was ' + priceFormat.format(week.value)
     console.log(weeklyPriceMessage)
   }
