@@ -1,8 +1,8 @@
-const nordpool = require('nordpool')
+import {nordpool} from 'nordpool'
+
 const prices = new nordpool.Prices()
 
-// async/await method
-printHourlyConsumerPrices = async () => {
+const printHourlyConsumerPrices = async () => {
   const results = await prices.hourly({area:'FI'})
   for (const item of results) {
     // item.date is an ISO Date-Time
@@ -15,7 +15,7 @@ printHourlyConsumerPrices = async () => {
     // convert it to snt/kWh and add Finnish VAT of 24 %
     const price = Math.round(item.value * 1.24 * 100)/1000
 
-    var row = `${hour}\t${price} cent/kWh`
+    var row = `${hour}\t${price.toFixed(3)} snt/kWh`
     console.log(row)
   }
 }
