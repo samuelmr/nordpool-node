@@ -1,14 +1,14 @@
 /* global describe, it */
 'use strict'
-require('chai').should()
-const nock = require('nock')
-const Prices = require('../lib/prices')
-const config = require('../config')
-const dayjs = require('dayjs')
-const dayjsPluginCustomParseFormat = require('dayjs/plugin/customParseFormat')
-const dayjsPluginUtc = require('dayjs/plugin/utc')
-const dayjsPluginTimezone = require('dayjs/plugin/timezone')
-const dayjsPluginWeekOfYear = require('dayjs/plugin/weekOfYear')
+import {expect} from 'chai'
+import nock from 'nock'
+import {Prices} from '../lib/prices.js'
+import {config} from '../config.js'
+import dayjs from 'dayjs'
+import dayjsPluginCustomParseFormat from 'dayjs/plugin/customParseFormat.js'
+import dayjsPluginUtc from 'dayjs/plugin/utc.js'
+import dayjsPluginTimezone from 'dayjs/plugin/timezone.js'
+import dayjsPluginWeekOfYear from 'dayjs/plugin/weekOfYear.js'
 dayjs.extend(dayjsPluginCustomParseFormat) // Used to accept custom date formats
 dayjs.extend(dayjsPluginUtc) // Used by timezone
 dayjs.extend(dayjsPluginTimezone) // Used to convert from one timezone to another
@@ -54,9 +54,9 @@ describe('Prices ', function () {
       currency: 'NOK',
       date: '2018-03-01T07:00:00Z'
     })
-    response.should.have.property('area', 'Tr.heim')
-    dayjs(response.date).tz('Europe/Oslo').format('YYYY-MM-DD H:mm:ss').should.equal('2018-03-01 8:00:00')
-    response.should.have.property('value', 2454.31)
+    expect(response).to.have.property('area', 'Tr.heim')
+    expect(dayjs(response.date).tz('Europe/Oslo').format('YYYY-MM-DD H:mm:ss')).to.equal('2018-03-01 8:00:00')
+    expect(response).to.have.property('value', 2454.31)
   })
 
   it('should get LV price in EUR at April 1st 2016 15:00 GMT', async function () {
@@ -64,9 +64,9 @@ describe('Prices ', function () {
       area: 'LV',
       date: '2016-04-01T15:00:00Z'
     })
-    response.should.have.property('area', 'LV')
-    dayjs(response.date).tz('Europe/Riga').format('YYYY-MM-DD H:mm:ss').should.equal('2016-04-01 18:00:00')
-    response.should.have.property('value', 30.01)
+    expect(response).to.have.property('area', 'LV')
+    expect(dayjs(response.date).tz('Europe/Riga').format('YYYY-MM-DD H:mm:ss')).to.equal('2016-04-01 18:00:00')
+    expect(response).to.have.property('value', 30.01)
   })
 
   it('should get the same results again', async function () {
@@ -75,9 +75,9 @@ describe('Prices ', function () {
       from: '2016-04-01T15:00:00Z',
       to: '2016-04-01T15:00:01Z'
     })
-    response[0].should.have.property('area', 'LV')
-    dayjs(response[0].date).tz('Europe/Riga').format('YYYY-MM-DD H:mm:ss').should.equal('2016-04-01 18:00:00')
-    response[0].should.have.property('value', 30.01)
+    expect(response[0]).to.have.property('area', 'LV')
+    expect(dayjs(response[0].date).tz('Europe/Riga').format('YYYY-MM-DD H:mm:ss')).to.equal('2016-04-01 18:00:00')
+    expect(response[0]).to.have.property('value', 30.01)
   })
 
   it('should get hourly FI prices in EUR, Finnish time', async function () {
@@ -85,9 +85,9 @@ describe('Prices ', function () {
       area: 'FI',
       date: '2016-04-01T23:59:59+0300'
     })
-    response.should.have.property('length', 24)
-    response[0].should.have.property('value', 20.69)
-    dayjs(response[0].date).tz('Europe/Helsinki').format('YYYY-MM-DD').should.equal('2016-04-01')
+    expect(response).to.have.property('length', 24)
+    expect(response[0]).to.have.property('value', 20.69)
+    expect(dayjs(response[0].date).tz('Europe/Helsinki').format('YYYY-MM-DD')).to.equal('2016-04-01')
   })
 
   it('should get daily Oslo prices in NOK', async function () {
@@ -96,9 +96,9 @@ describe('Prices ', function () {
       currency: 'NOK',
       date: '2016-03-31'
     })
-    response.should.have.property('length', 31)
-    response[0].should.have.property('value', 204.37)
-    dayjs(response[0].date).tz('Europe/Oslo').format('YYYY-MM-DD').should.equal('2016-03-31')
+    expect(response).to.have.property('length', 31)
+    expect(response[0]).to.have.property('value', 204.37)
+    expect(dayjs(response[0].date).tz('Europe/Oslo').format('YYYY-MM-DD')).to.equal('2016-03-31')
   })
 
   it('should print a warning and get daily Oslo prices in NOK', async function () {
@@ -108,9 +108,9 @@ describe('Prices ', function () {
       from: '2016-02-28',
       to: '2016-03-31'
     })
-    response.should.have.property('length', 31)
-    response[0].should.have.property('value', 204.37)
-    dayjs(response[0].date).tz('Europe/Oslo').format('YYYY-MM-DD').should.equal('2016-03-31')
+    expect(response).to.have.property('length', 31)
+    expect(response[0]).to.have.property('value', 204.37)
+    expect(dayjs(response[0].date).tz('Europe/Oslo').format('YYYY-MM-DD')).to.equal('2016-03-31')
   })
 
   it('should get weekly DK2 prices in DKK from date-string input', async function () {
@@ -119,10 +119,10 @@ describe('Prices ', function () {
       currency: 'DKK',
       date: '2015-06-08'
     })
-    response.should.have.property('length', 24)
-    response[0].should.have.property('value', 186.32)
-    dayjs(response[0].date).week().should.equal(24)
-    dayjs(response[0].date).format('YYYY').should.equal('2015')
+    expect(response).to.have.property('length', 24)
+    expect(response[0]).to.have.property('value', 186.32)
+    expect(dayjs(response[0].date).week()).to.equal(24)
+    expect(dayjs(response[0].date).format('YYYY')).to.equal('2015')
   })
 
   // >v2.1.1 upgrade: moment-timezone is able to parse week numbers as '24/2015' as week 24 in year 2015. 
@@ -133,10 +133,10 @@ describe('Prices ', function () {
   //     currency: 'DKK',
   //     date: '24/2015'
   //   })
-  //   response.should.have.property('length', 24)
-  //   response[0].should.have.property('value', 186.32)
-  //   dayjs(response[0].date).week().should.equal(24)
-  //   dayjs(response[0].date).format('YYYY').should.equal('2015')
+  //   expect(response).to.have.property('length', 24)
+  //   expect(response[0]).to.have.property('value', 186.32)
+  //   expect(dayjs(response[0].date).week()).to.equal(24)
+  //   expect(dayjs(response[0].date).format('YYYY')).to.equal('2015')
   // })
 
   it('should get monthly SE4 prices in SEK', async function () {
@@ -145,8 +145,8 @@ describe('Prices ', function () {
       currency: 'SEK',
       date: '2016-12'
     })
-    response.should.have.property('length', 53)
-    response[0].should.have.property('value', 333.57)
+    expect(response).to.have.property('length', 53)
+    expect(response[0]).to.have.property('value', 333.57)
   })
 
   it('should get only 12 monthly prices', async function () {
@@ -156,15 +156,15 @@ describe('Prices ', function () {
       from: '2015-12-31',
       to: '2016-12-31'
     })
-    response.should.have.property('length', 12)
-    response[0].should.have.property('value', 333.57)
+    expect(response).to.have.property('length', 12)
+    expect(response[0]).to.have.property('value', 333.57)
   })
 
   it('should get all yearly prices in EUR', async function () {
     const response = await prices.yearly({
       date: '2017-01-01'
     })
-    response.should.have.property('length', 196)
-    response[0].should.have.property('value', 26.91)
+    expect(response).to.have.property('length', 196)
+    expect(response[0]).to.have.property('value', 26.91)
   })
 })
