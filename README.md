@@ -61,7 +61,7 @@ run()
 
 ## Returned values
 
-The result is returned as a Promise resolving into an array of objects. If requesting hourly with options = `{ area: 'Oslo', currency: 'NOK', from: '2020-01-01T04:00:00.000Z', to: '2020-01-01T05:00:01.000Z' }` the result should be:
+The result is returned as a Promise resolving into an array of objects. If requesting hourly with options = `{ area: 'Oslo', currency: 'NOK', from: '2020-01-01T04:00:00.000Z', to: '2020-01-01T05:00:01.000Z' }` the result should be (comments added):
 ```js
 [{
     area: 'Oslo', // Area
