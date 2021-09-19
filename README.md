@@ -165,7 +165,6 @@ Parsing dates with `moment` and formatting prices with `Intl.NumberFormat`
 ```js
 import {nordpool} from 'nordpool'
 import dayjs from 'dayjs'
-import dayjsPluginCustomParseFormat from 'dayjs/plugin/customParseFormat.js'
 import dayjsPluginWeekOfYear from 'dayjs/plugin/weekOfYear.js'
 dayjs.extend(dayjsPluginWeekOfYear)
 
