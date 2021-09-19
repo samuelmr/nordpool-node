@@ -1,5 +1,8 @@
-const nordpool = require('nordpool')
-const moment = require('moment-timezone')
+import {nordpool} from 'nordpool'
+import dayjs from 'dayjs'
+import dayjsPluginCustomParseFormat from 'dayjs/plugin/customParseFormat.js'
+import dayjsPluginWeekOfYear from 'dayjs/plugin/weekOfYear.js'
+dayjs.extend(dayjsPluginWeekOfYear)
 
 const opts = {
   currency: 'NOK',
@@ -7,11 +10,11 @@ const opts = {
   from: '2019-06-01'
 }
 
-getWeekly = async () => {
+const getWeekly = async () => {
   const prices = await new nordpool.Prices().weekly(opts)
   for (const week of prices.reverse()) {
     const weeklyPriceMessage = 'The MWh price on week ' + 
-      moment(week.date).format('W/GGGG') +
+      dayjs(week.date).week() + '/' + dayjs(week.date).format('YYYY') +
       ' was ' + priceFormat.format(week.value)
     console.log(weeklyPriceMessage)
   }
