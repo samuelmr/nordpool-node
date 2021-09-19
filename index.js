@@ -1,12 +1,15 @@
 'use strict'
-var prices = require('./lib/prices')
-// var volumes = require('./lib/volumes')
-// var capacities = require('./lib/capacities')
-// var flow = require('./lib/flow')
 
-module.exports = {
-  Prices: prices
-//   Volumes: volumes,
-//   Capacities: capacities,
-//   Flow: flow
+import { Prices } from './lib/prices.js'
+// import { Volumes } from './lib/volumes.js'
+// import { Capacities } from './lib/capacitie.js'
+// import { Flow } from './lib/flow.js'
+
+const nordpool = {
+  Prices
+  //   , Volumes
+  //   , Capacities
+  //   , Flow
 }
+
+export { nordpool }
