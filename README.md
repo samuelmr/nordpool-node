@@ -64,9 +64,9 @@ run()
 The result is returned as a Promise resolving into an array of objects. If requesting hourly with options = `{ area: 'Oslo', currency: 'NOK', from: '2020-01-01T04:00:00.000Z', to: '2020-01-01T05:00:01.000Z' }` the result should be:
 ```js
 [{
-    area: 'Oslo' // Area
-    date: '2020-01-01T04:00:00.000Z' // UTC timestamp of price. Eg. price from 04:00 to 05:00 UTC time
-    value: 298.57 // Price in `currency`/MWh Eg. NOK/MWh
+    area: 'Oslo', // Area
+    date: '2020-01-01T04:00:00.000Z', // UTC timestamp of price. Eg. price from 04:00 to 05:00 UTC time
+    value: 298.57 // Price in selected currency/MWh Eg. NOK/MWh
 },
 { area: 'Oslo', date: '2020-01-01T05:00:00.000Z', value: 297.58 }
 ]
