@@ -1,7 +1,6 @@
-'use strict'
-const baseUrl = 'http://www.nordpoolspot.com/api'
+const baseUrl = 'https://www.nordpoolspot.com/api'
 
-const config = {
+export const config = {
   baseUrl: baseUrl,
   priceUrlHourly: baseUrl + '/marketdata/page/10',
   priceUrlDaily: baseUrl + '/marketdata/page/11',
@@ -12,6 +11,4 @@ const config = {
   // capacityUrl: baseUrl + '/marketdata/page/',
   // flowUrl: baseUrl + '/marketdata/page/',
   timezone: 'Europe/Oslo'
-}
-
-export { config }
+};

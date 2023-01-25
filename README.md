@@ -23,8 +23,8 @@ limits for republishing information etc.
 
 ## Usage
 ```js
-import { nordpool } from 'nordpool'
-const prices = new nordpool.Prices()
+import {Prices} from 'nordpool'
+const prices = new Prices()
 const run = async () => {
   const results = await prices.hourly()
   console.log(results)
