@@ -1,6 +1,6 @@
 {
   "name": "nordpool",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "Nord Pool ELSPOT API client",
   "main": "lib/prices.js",
   "types": "lib/prices.d.ts",
@@ -26,7 +26,7 @@
   "license": "MIT",
   "dependencies": {
     "dayjs": "^1.10.2",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.7"
   },
   "devDependencies": {
     "@types/chai": "^4.3.4",
