@@ -201,6 +201,7 @@ Historical data seems to be available for two previous years.
 
 ## Known issues
 - Versions prior to 2.0 were full of flaws. Don't use them.
+- Version 5.0.0 changes the export! Previous usage was `import { nordpool } from 'nordpool'` and current is `import { Prices } from 'nordpool'`.
 - The Nordpool API returns data in Norwegian time zones. The `hourly` API returns data from midnight to midnight in the Europe/Oslo timezone.
 - Historical data is limited to two calendar years in addition to the current year.
 - The API limits are a bit strange. The maximum number of weeks is 24 and the maximum number of months is 53.
