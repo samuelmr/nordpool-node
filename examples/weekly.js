@@ -1,4 +1,4 @@
-import {nordpool} from 'nordpool'
+import { Prices } from 'nordpool'
 import dayjs from 'dayjs'
 import dayjsPluginWeekOfYear from 'dayjs/plugin/weekOfYear.js'
 dayjs.extend(dayjsPluginWeekOfYear)
@@ -10,7 +10,7 @@ const opts = {
 }
 
 const getWeekly = async () => {
-  const prices = await new nordpool.Prices().weekly(opts)
+  const prices = await new Prices().weekly(opts)
   for (const week of prices.reverse()) {
     const weeklyPriceMessage = 'The MWh price on week ' + 
       dayjs(week.date).week() + '/' + dayjs(week.date).format('YYYY') +

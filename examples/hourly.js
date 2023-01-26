@@ -1,5 +1,5 @@
-import {nordpool} from 'nordpool'
-const prices = new nordpool.Prices()
+import { Prices } from 'nordpool'
+const prices = new Prices()
 
 prices.hourly().then(results => {
   for (const item of results) {

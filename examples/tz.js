@@ -1,5 +1,5 @@
-import {nordpool} from 'nordpool'
-const prices = new nordpool.Prices()
+import { Prices } from 'nordpool'
+const prices = new Prices()
 import dayjs from 'dayjs'
 import dayjsPluginUtc from 'dayjs/plugin/utc.js'
 import dayjsPluginTimezone from 'dayjs/plugin/timezone.js'

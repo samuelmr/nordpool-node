@@ -1,5 +1,5 @@
-import {nordpool} from 'nordpool'
-var prices = new nordpool.Prices()
+import { Prices } from 'nordpool'
+var prices = new Prices()
 
 async function run () {
   var opts = {

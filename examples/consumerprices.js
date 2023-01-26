@@ -1,6 +1,6 @@
-import {nordpool} from 'nordpool'
+import { Prices } from 'nordpool'
 
-const prices = new nordpool.Prices()
+const prices = new Prices()
 
 const printHourlyConsumerPrices = async () => {
   const results = await prices.hourly({area:'FI'})

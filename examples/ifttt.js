@@ -19,7 +19,7 @@ const IFTTT_KEY = '' // get from https://ifttt.com/maker_webhooks/settings/conne
 
 const IFTTT_URL = `https://maker.ifttt.com/trigger/${IFTTT_TRIGGER}/with/key/${IFTTT_KEY}`
 
-import { nordpool } from 'nordpool'
+import { Prices } from 'nordpool'
 import fetch from 'node-fetch'
 import dayjs from 'dayjs'
 import dayjsPluginUtc from 'dayjs/plugin/utc.js'
@@ -27,7 +27,7 @@ import dayjsPluginTimezone from 'dayjs/plugin/timezone.js'
 dayjs.extend(dayjsPluginUtc) // Used by timezone
 dayjs.extend(dayjsPluginTimezone) // Used to convert from one timezone to another
 
-const prices = new nordpool.Prices()
+const prices = new Prices()
 
 const inputDate = new Date()
 inputDate.setHours(inputDate.getHours() + 1) // next hour

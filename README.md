@@ -98,8 +98,8 @@ prices.hourly().then(results => {
 ### Example 2: Hourly prices in Stockholm
 
 ```js
-import {nordpool} from 'nordpool'
-const prices = new nordpool.Prices()
+import { Prices } from 'nordpool'
+const prices = new Prices()
 import dayjs from 'dayjs'
 import dayjsPluginUtc from 'dayjs/plugin/utc.js'
 import dayjsPluginTimezone from 'dayjs/plugin/timezone.js'
@@ -134,9 +134,9 @@ run()
 
 Coverting "business prices" (€/MWh) to "consumer prices" (including VAT)
 ```js
-import {nordpool} from 'nordpool'
+import { Prices } from 'nordpool'
 
-const prices = new nordpool.Prices()
+const prices = new Prices()
 
 const printHourlyConsumerPrices = async () => {
   const results = await prices.hourly({area:'FI'})
@@ -163,7 +163,7 @@ printHourlyConsumerPrices()
 Parsing dates with `moment` and formatting prices with `Intl.NumberFormat`
 
 ```js
-import {nordpool} from 'nordpool'
+import { Prices } from 'nordpool'
 import dayjs from 'dayjs'
 import dayjsPluginWeekOfYear from 'dayjs/plugin/weekOfYear.js'
 dayjs.extend(dayjsPluginWeekOfYear)
@@ -175,7 +175,7 @@ const opts = {
 }
 
 const getWeekly = async () => {
-  const prices = await new nordpool.Prices().weekly(opts)
+  const prices = await new Prices().weekly(opts)
   for (const week of prices.reverse()) {
     const weeklyPriceMessage = 'The MWh price on week ' + 
       dayjs(week.date).week() + '/' + dayjs(week.date).format('YYYY') +
