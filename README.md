@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/samuelmr/nordpool-node.svg?branch=master)](https://travis-ci.org/samuelmr/nordpool-node)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-Unofficial [Nordpool](http://www.nordpoolspot.com/) Elspot API npm client
+Unofficial [Nordpool](http://www.nordpoolgroup.com/) Elspot API npm client
 
 ## Restrictions regarding data use
 
