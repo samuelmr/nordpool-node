@@ -1,6 +1,6 @@
 {
   "name": "nordpool",
-  "version": "5.0.1",
+  "version": "5.1.0",
   "description": "Nord Pool ELSPOT API client",
   "main": "lib/prices.js",
   "types": "lib/prices.d.ts",
