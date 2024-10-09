@@ -72,44 +72,45 @@ export class Prices {
     );
   }
 
-  async daily(opts: PriceOptions) {
-    return this.getValues(
-      Object.assign({}, opts, {
-        url: config.priceUrlDaily,
-        maxRange: { day: 31 },
-      }) as NordpoolOptions
-    );
-  }
+  //async daily(opts: PriceOptions) {
+  //  return this.getValues(
+  //    Object.assign({}, opts, {
+  //      url: config.priceUrlDaily,
+  //      maxRange: { day: 31 },
+  //    }) as NordpoolOptions
+  //  );
+  //}
 
-  async weekly(opts: PriceOptions) {
-    return this.getValues(Object.assign({}, opts, {
-      url: config.priceUrlWeekly,
-      maxRange: { week: 24 },
-    }) as NordpoolOptions);
-  }
+  //async weekly(opts: PriceOptions) {
+  //  return this.getValues(Object.assign({}, opts, {
+  //    url: config.priceUrlWeekly,
+  //    maxRange: { week: 24 },
+  //  }) as NordpoolOptions);
+  //}
 
-  async monthly(opts: PriceOptions) {
-    return this.getValues(
-      Object.assign({}, opts, {
-        url: config.priceUrlMonthly,
-        maxRange: { month: 53 },
-      }) as NordpoolOptions
-    );
-  }
+  //async monthly(opts: PriceOptions) {
+  //  return this.getValues(
+  //    Object.assign({}, opts, {
+  //      url: config.priceUrlMonthly,
+  //      maxRange: { month: 53 },
+  //    }) as NordpoolOptions
+  //  );
+  //}
 
-  async yearly(opts: PriceOptions) {
-    return this.getValues(
-      Object.assign({}, opts, {
-        url: config.priceUrlYearly,
-      }) as NordpoolOptions
-    );
-  }
+  //async yearly(opts: PriceOptions) {
+  //  return this.getValues(
+  //    Object.assign({}, opts, {
+  //      url: config.priceUrlYearly,
+  //    }) as NordpoolOptions
+  //  );
+  //}
 
   private async getValues(opts: NordpoolOptions): Promise<Result[]|undefined> {
     let fromTime = opts.from ? dayjs.tz(opts.from) : null;
     const toTime = opts.to ? dayjs.tz(opts.to) : null;
     const maxRangeKey = opts.maxRange ? (opts.maxRange.day ? "day" : opts.maxRange.hour ? "hour" : opts.maxRange.month ? "month" : "week") : undefined;
     const maxRangeValue = opts.maxRange && maxRangeKey ? opts.maxRange[maxRangeKey] : 0;
+    const area = opts.area ? opts.area : "FI";
     if (fromTime && toTime && maxRangeKey && maxRangeValue) {
       const minFromTime = toTime.subtract(maxRangeValue, maxRangeKey);
       if (fromTime.isBefore(minFromTime)) {
@@ -130,24 +131,20 @@ export class Prices {
       optsDate = opts.date;
     }
     const currency = opts.currency || "EUR";
-    const url = `${opts.url}?currency=,${currency},${currency},${currency}&endDate=${dayjs.tz(optsDate, config.timezone).format("DD-MM-YYYY")}`
+    const url = `${opts.url}?currency=${currency}&market=DayAhead&deliveryArea=${area}&date=${dayjs(optsDate).format("YYYY-MM-DD")}`
     
     // fetch
     const resp = await fetch(url);
+    if (resp.status === 204) return; // no content yet
     if (resp.status !== 200) throw new Error(`Unable to make request to nordpool - status ${resp.status}`);
-    const obj: any = await resp.json();
-    const data = obj.data;
-    if (data && data.Rows && data.Rows.length) {
-      const values = [];
-      for (const row of data.Rows) {
-        if (row.IsExtraRow) {
-          continue;
-        }
+    const data: any = await resp.json();
+    if (data && data.multiAreaEntries && data.multiAreaEntries.length) {
+    const values = [];
+      for (const row of data.multiAreaEntries) {
 
-        const date = dayjs.tz(
-          row.StartTime,
-          "YYYY-MM-DDTHH:mm:ss",
-          config.timezone
+        const date = dayjs(
+          row.deliveryStart,
+          "YYYY-MM-DDTHH:mm:ss"
         );
         if (!date.isValid()) {
           continue;
@@ -158,18 +155,14 @@ export class Prices {
           // date out of given range
           continue;
         }
-        for (const column of row.Columns) {
-          const value = parseFloat(
-            column.Value.replace(/,/, ".").replace(/ /g, "")
-          );
-          if (isNaN(value)) {
-            continue;
-          }
-          const area = column.Name;
-          if (!opts.area || opts.area === area) {
-            values.push({ area: area, date: date.toISOString(), value: value } as Result);
-          }
+        const entry = row.entryPerArea;
+        const value = parseFloat(
+          entry[area]
+        );
+        if (isNaN(value)) {
+          continue;
         }
+        values.push({ area: area, date: date.toISOString(), value: value } as Result);
       }
       return values;
     }
